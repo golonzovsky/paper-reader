@@ -6,27 +6,45 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE"
+
     }
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    maven { url "http://repo.spring.io/libs-release" }
+    maven { url "http://repo.spring.io/libs-milestone" }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-stream-dependencies:Chelsea.SR2'
+    }
 }
 
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    //compile 'org.springframework.boot:spring-boot-starter-actuator'
     //compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
     //compile 'org.springframework.boot:spring-boot-starter-data-neo4j'
     compile 'org.springframework.boot:spring-boot-starter-integration'
+    compile 'org.springframework.integration:spring-integration-file'
+    compile 'org.springframework.integration:spring-integration-aws:1.1.0.M2'
+
+    compile 'org.springframework.cloud:spring-cloud-stream'
+    compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+    //compile 'org.springframework.cloud:spring-cloud-starter-stream-kafka'
+
     compile 'org.apache.pdfbox:pdfbox:2.0.7'
+    compile 'com.amazonaws:aws-java-sdk:1.11.172'
 
     compileOnly 'org.projectlombok:lombok:1.16.18'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
