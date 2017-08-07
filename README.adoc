@@ -10,6 +10,8 @@ image::diagram-paper-reader.png[]
 - [x] parse document
 - [x] fetch documents from S3
 - [ ] store to neo4j reflecting reference hierarchy
+- [ ] consider wrapping storage with APIs
+- [ ] consider switching to messaging
 - [ ] store to elasticsearch for full text search
 - [ ] UI to view papers
 - [ ] UI to upload
