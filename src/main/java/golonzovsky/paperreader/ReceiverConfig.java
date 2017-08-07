@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,10 +22,9 @@ import java.io.File;
 @EnableBinding(Sink.class)
 public class ReceiverConfig {
 
-    @Bean
-    @ServiceActivator(inputChannel = "input")
-    public MessageHandler receiveAsync() {
-        return (Message<?> m) -> log.info("RECEIVE ASYNC {}", m.getPayload());
+    @StreamListener(Sink.INPUT)
+    public void receiveAsync(Paper p) {
+        log.info("RECEIVE ASYNC '{}'", p.getTitle());
     }
 
 }
