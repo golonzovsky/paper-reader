@@ -17,6 +17,8 @@ import org.springframework.messaging.PollableChannel;
 
 import java.io.File;
 
+
+/* todo extract so separate app */
 @Slf4j
 @Configuration
 @EnableBinding(Sink.class)
@@ -25,6 +27,7 @@ public class ReceiverConfig {
     @StreamListener(Sink.INPUT)
     public void receiveAsync(Paper p) {
         log.info("RECEIVE ASYNC '{}'", p.getTitle());
+        //todo store to neo4j and mongo/elastic for text search
     }
 
 }

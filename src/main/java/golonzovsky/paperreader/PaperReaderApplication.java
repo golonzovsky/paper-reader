@@ -65,7 +65,7 @@ public class PaperReaderApplication {
     @Bean
     public S3InboundFileSynchronizer s3InboundFileSynchronizer() {
         S3InboundFileSynchronizer synchronizer = new S3InboundFileSynchronizer(s3());
-        synchronizer.setDeleteRemoteFiles(true);
+        synchronizer.setDeleteRemoteFiles(true);//todo switch to streaming adapter to avoid file deletion
         synchronizer.setPreserveTimestamp(true);
         synchronizer.setRemoteDirectory("paper-storage");
         synchronizer.setFilter(new S3RegexPatternFileListFilter("^.*\\.pdf$"));
