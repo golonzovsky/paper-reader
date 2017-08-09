@@ -33,8 +33,6 @@ dependencyManagement {
 
 dependencies {
     //compile 'org.springframework.boot:spring-boot-starter-actuator'
-    //compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
-    //compile 'org.springframework.boot:spring-boot-starter-data-neo4j'
     compile 'org.springframework.boot:spring-boot-starter-integration'
     compile 'org.springframework.integration:spring-integration-file'
     compile 'org.springframework.integration:spring-integration-aws:1.1.0.M2'
@@ -42,6 +40,13 @@ dependencies {
     compile 'org.springframework.cloud:spring-cloud-stream'
     compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
     //compile 'org.springframework.cloud:spring-cloud-starter-stream-kafka'
+
+    compile('org.springframework.boot:spring-boot-starter-data-neo4j') {
+        exclude group: 'org.neo4j', module: 'neo4j-ogm-http-driver'
+    }
+    compile('org.neo4j:neo4j-ogm-bolt-driver:2.1.3')
+    testCompile 'org.neo4j:neo4j-ogm-embedded-driver:2.1.3'
+    testCompile 'org.neo4j:neo4j:3.1.2'
 
     compile 'org.apache.pdfbox:pdfbox:2.0.7'
     compile 'com.amazonaws:aws-java-sdk:1.11.172'

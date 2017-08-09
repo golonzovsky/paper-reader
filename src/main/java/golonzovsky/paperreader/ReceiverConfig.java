@@ -1,8 +1,8 @@
 package golonzovsky.paperreader;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
@@ -20,14 +20,29 @@ import java.io.File;
 
 /* todo extract so separate app */
 @Slf4j
-@Configuration
 @EnableBinding(Sink.class)
 public class ReceiverConfig {
 
+    @Autowired
+    PaperRepository neoRepo;
+
+    @Bean
+    public InitializingBean init() {//todo dev only. remove
+        return neoRepo::deleteAll;
+    }
+
     @StreamListener(Sink.INPUT)
-    public void receiveAsync(Paper p) {
-        log.info("RECEIVE ASYNC '{}'", p.getTitle());
-        //todo store to neo4j and mongo/elastic for text search
+    public void createNeo4jEntry(Paper p) {
+        log.info("indexing createNeo4jEntry for '{}'", p.getTitle());
+        //todo store to neo4j finding existing references
+        neoRepo.save(p);
+    }
+
+    @StreamListener(Sink.INPUT)
+    public void createTextIndexEntry(Paper p) {
+        log.info("indexing createTextIndexEntry for'{}'", p.getTitle());
+        //todo store to mongo/elastic for full text search
+
     }
 
 }

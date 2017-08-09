@@ -53,6 +53,6 @@ class PaperParser {
                 .filter(s -> !s.isEmpty())
                 .map(s -> "[" + s)
                 .collect(Collectors.toList());
-        builder.references(refs);
+        builder.referencesText(refs);
     }
 }
