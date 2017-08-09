@@ -24,20 +24,25 @@ import java.io.File;
 public class ReceiverConfig {
 
     @Autowired
-    PaperRepository neoRepo;
+    GraphPaperRepository neoRepo;
+
+/*    @Autowired
+    ElasticPaperRepository elasticRepo;*/
 
     @StreamListener(Sink.INPUT)
     public void createNeo4jEntry(Paper p) {
         log.info("indexing createNeo4jEntry for '{}'", p.getTitle());
         //todo store to neo4j finding existing references
         neoRepo.save(p);
+        //elasticRepo.save(p);
     }
 
+/*
     @StreamListener(Sink.INPUT)
     public void createTextIndexEntry(Paper p) {
         log.info("indexing createTextIndexEntry for'{}'", p.getTitle());
-        //todo store to mongo/elastic for full text search
-
+        elasticRepo.save(p);
     }
+*/
 
 }
