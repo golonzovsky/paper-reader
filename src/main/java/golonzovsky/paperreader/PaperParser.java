@@ -8,7 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Component
 class PaperParser {
@@ -36,8 +37,7 @@ class PaperParser {
     }
 
     private String getFileAsText(File file) {
-        try {
-            PDDocument inputDoc = PDDocument.load(file);
+        try (PDDocument inputDoc = PDDocument.load(file)) {
             return pdfStripper.getText(inputDoc);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -48,11 +48,11 @@ class PaperParser {
         String references = text.replaceAll("(?is).*references?(.*)", "$1");
         builder.referencesFull(references);
 
-        List<String> refs = Arrays.stream(references.split("\\["))
+        List<String> refs = Arrays.stream(references.split("\\[.+]"))
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
-                .map(s -> "[" + s)
-                .collect(Collectors.toList());
+                .map(s -> s.replaceAll("\n", ""))
+                .collect(toList());
         builder.referencesText(refs);
     }
 }

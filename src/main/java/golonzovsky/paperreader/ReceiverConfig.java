@@ -26,11 +26,6 @@ public class ReceiverConfig {
     @Autowired
     PaperRepository neoRepo;
 
-    @Bean
-    public InitializingBean init() {//todo dev only. remove
-        return neoRepo::deleteAll;
-    }
-
     @StreamListener(Sink.INPUT)
     public void createNeo4jEntry(Paper p) {
         log.info("indexing createNeo4jEntry for '{}'", p.getTitle());

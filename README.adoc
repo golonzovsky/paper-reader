@@ -12,7 +12,8 @@ image::diagram-paper-reader.png[]
 ==== parser
 - [x] parse document
 - [x] fetch documents from S3
-- [ ] get rid of newlines
+- [x] get rid of newlines
+- [ ] use ML instead of parser logic with gazillion rules
 
 ==== fetcher
 - [ ] fetcher service
